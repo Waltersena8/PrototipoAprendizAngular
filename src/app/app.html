@@ -1,0 +1,45 @@
+@if (registrado(); as r) {
+  <div class="layout">
+    <!-- ===== Header ===== -->
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">SENA</div>
+        <div class="brand-text">
+          <span class="brand-title">Sistema de Evaluación T&amp;T</span>
+          <span class="brand-sub">Módulo Aprendiz</span>
+        </div>
+      </div>
+
+      <div class="badge-role">Aprendiz</div>
+
+      @if (aprendiz(); as a) {
+        <div class="user">
+          <div class="user-avatar">{{ iniciales() }}</div>
+          <div class="user-info">
+            <strong>{{ a.nombreCompleto }}</strong>
+            <span>Ficha {{ a.ficha }} · {{ a.nombreTecnologo }}</span>
+          </div>
+        </div>
+      }
+    </header>
+
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar">
+      <nav>
+        <a routerLink="/home" routerLinkActive="active">🏠 <span>Inicio</span></a>
+        <a routerLink="/evaluacion" routerLinkActive="active">📝 <span>Evaluación</span></a>
+        <a routerLink="/resultados" routerLinkActive="active">📊 <span>Resultados</span></a>
+      </nav>
+      <button class="logout" (click)="cerrarSesion()">↩ <span>Cerrar sesión</span></button>
+    </aside>
+
+    <!-- ===== Contenido ===== -->
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+} @else {
+  <main class="content full">
+    <router-outlet />
+  </main>
+}

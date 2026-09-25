@@ -1,0 +1,98 @@
+@if (competencia(); as comp) {
+  <section class="prueba">
+    <!-- ===== Header de la competencia ===== -->
+    <header class="prueba-head">
+      <div class="head-left">
+        <span class="comp-emoji">{{ comp.icono }}</span>
+        <div>
+          <h1>{{ comp.nombre }}</h1>
+          <p>
+            ⏱ {{ comp.duracionMin }} min · Puntaje máximo {{ tyt.PUNTAJE_MAX }} pts ·
+            {{ preguntas().length }} preguntas
+          </p>
+        </div>
+      </div>
+      <a routerLink="/evaluacion" class="back">← Volver</a>
+    </header>
+
+    @if (!enviada()) {
+      <!-- ===== Lista de preguntas ===== -->
+      <div class="preguntas">
+        @for (p of preguntas(); track p.id; let i = $index) {
+          <article class="pregunta">
+            <h2>
+              <span class="num">P{{ i + 1 }}</span>
+              {{ p.texto }}
+            </h2>
+            <div class="opciones">
+              @for (op of p.opciones; track op.texto; let j = $index) {
+                <label
+                  class="opcion"
+                  [class.selected]="respuestas()[i] === j"
+                  (click)="seleccionar(i, j)"
+                >
+                  <span class="radio"></span>
+                  <span>{{ op.texto }}</span>
+                </label>
+              }
+            </div>
+          </article>
+        }
+      </div>
+
+      <!-- ===== Barra de envío ===== -->
+      <div class="actions">
+        <p class="pendientes">
+          @if (pendientes() > 0) {
+            Te faltan <strong>{{ pendientes() }}</strong> pregunta(s) por responder.
+          } @else {
+            ¡Todas las preguntas respondidas! ✅
+          }
+        </p>
+        <button class="btn-enviar" [disabled]="pendientes() > 0" (click)="enviar()">
+          Enviar respuestas
+        </button>
+      </div>
+    } @else {
+      <!-- ===== Pantalla de resultado ===== -->
+      @if (resultado(); as res) {
+        <div class="resultado-card">
+          <div class="result-emoji">🎉</div>
+          <h2>¡Prueba enviada!</h2>
+          <p class="result-comp">{{ comp.nombre }}</p>
+
+          <div class="result-stats">
+            <div class="stat">
+              <span class="stat-num">{{ res.salidaPuntaje }}</span>
+              <span class="stat-lbl">/ {{ tyt.PUNTAJE_MAX }} pts</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">{{ res.salidaAciertos }}</span>
+              <span class="stat-lbl">/ {{ res.salidaTotal }} aciertos</span>
+            </div>
+            <div class="stat">
+              <span class="stat-num">{{ res.entradaPorcentaje }}%</span>
+              <span class="stat-lbl">Tu entrada</span>
+            </div>
+          </div>
+
+          <p class="result-compare">
+            @if ((res.salidaPuntaje ?? 0) >= res.entradaPorcentaje * 2) {
+              📈 Mejoraste respecto a tu prueba de entrada. ¡Bien hecho!
+            } @else {
+              📊 Tu prueba de entrada estaba en {{ res.entradaPorcentaje }}%. ¡Sigue practicando
+              para mejorar!
+            }
+          </p>
+
+          <div class="result-actions">
+            <button class="btn-repetir" (click)="repetir()">Repetir prueba</button>
+            <a routerLink="/evaluacion" class="btn-back-eval">Volver a evaluación</a>
+          </div>
+        </div>
+      }
+    }
+  </section>
+} @else {
+  <p class="error-msg">No se encontró la competencia.</p>
+}

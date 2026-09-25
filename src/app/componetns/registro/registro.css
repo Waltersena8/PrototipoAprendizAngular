@@ -1,0 +1,268 @@
+:host {
+  display: block;
+}
+
+.registro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+}
+
+/* ===== Panel izquierdo (verde SENA) ===== */
+.panel-izq {
+  background: linear-gradient(160deg, var(--sena-green) 0%, var(--sena-green-deep) 100%);
+  color: #fff;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel-izq::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 280px;
+  height: 280px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 50%;
+}
+
+.panel-izq::after {
+  content: '';
+  position: absolute;
+  bottom: -120px;
+  left: -60px;
+  width: 320px;
+  height: 320px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+}
+
+.brand {
+  position: relative;
+  z-index: 1;
+}
+
+.brand-mark {
+  background: #fff;
+  color: var(--sena-green-deep);
+  font-weight: 800;
+  font-family: 'Poppins', sans-serif;
+  padding: 0.5rem 0.8rem;
+  border-radius: 8px;
+  letter-spacing: 1px;
+  display: inline-block;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+}
+
+.panel-content {
+  position: relative;
+  z-index: 1;
+}
+
+.panel-content h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.panel-content p {
+  font-size: 1rem;
+  opacity: 0.92;
+  max-width: 420px;
+}
+
+.info-box {
+  position: relative;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.28);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+}
+
+.info-box .bulb {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.info-box strong {
+  display: block;
+  font-family: 'Poppins', sans-serif;
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+}
+
+.info-box p {
+  font-size: 0.82rem;
+  opacity: 0.9;
+  line-height: 1.45;
+}
+
+/* ===== Panel derecho (formulario) ===== */
+.panel-der {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1.5rem;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 540px;
+  background: #fff;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  border: 1px solid var(--line);
+  padding: 2rem 2rem 1.5rem;
+}
+
+.form-head {
+  margin-bottom: 1.4rem;
+}
+
+.form-head h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.4rem;
+  color: var(--ink);
+  margin-bottom: 0.3rem;
+}
+
+.form-head p {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem 1rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.field span {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.field input,
+.field select {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: #fbfcfe;
+  color: var(--ink);
+  outline: none;
+  transition:
+    border 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--sena-green);
+  box-shadow: 0 0 0 3px var(--sena-green-soft);
+  background: #fff;
+}
+
+.field-check {
+  grid-column: 1 / -1;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.55rem;
+}
+
+.field-check input {
+  width: 18px;
+  height: 18px;
+  margin-top: 1px;
+  accent-color: var(--sena-green);
+  flex-shrink: 0;
+}
+
+.field-check span {
+  font-size: 0.82rem;
+  font-weight: 400;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.error {
+  margin-top: 1rem;
+  background: #fef2f2;
+  color: var(--danger);
+  border: 1px solid #fecaca;
+  padding: 0.65rem 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.82rem;
+}
+
+.btn-primary {
+  margin-top: 1.4rem;
+  width: 100%;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.85rem;
+  border-radius: var(--radius-sm);
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.btn-primary:hover {
+  background: var(--brand-dark);
+}
+
+.btn-primary:active {
+  transform: scale(0.99);
+}
+
+.help {
+  text-align: center;
+  margin-top: 1.1rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.help a {
+  color: var(--brand);
+  font-weight: 500;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 880px) {
+  .registro {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-izq {
+    padding: 1.5rem;
+    min-height: auto;
+  }
+
+  .panel-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .grid-2 {
+    grid-template-columns: 1fr;
+  }
+}

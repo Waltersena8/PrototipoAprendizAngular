@@ -1,0 +1,109 @@
+<div class="registro">
+  <!-- ===== Panel verde (branding) ===== -->
+  <section class="panel-izq">
+    <div class="brand">
+      <div class="brand-mark">SENA</div>
+    </div>
+
+    <div class="panel-content">
+      <h1>Sistema de Gestión y<br />Evaluación Académica T&amp;T</h1>
+      <p>Consulta y presenta tus pruebas de entrada y simulacros tipo ICFES desde un solo lugar.</p>
+    </div>
+
+    <div class="info-box">
+      <span class="bulb">💡</span>
+      <div>
+        <strong>¿Por qué presentar estas pruebas?</strong>
+        <p>
+          La prueba de entrada mide cómo llegas al programa. El simulacro de salida evalúa las 5
+          competencias tipo ICFES antes de tu Saber T&amp;T oficial.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Panel blanco (formulario) ===== -->
+  <section class="panel-der">
+    <form class="form-card" (ngSubmit)="enviar()">
+      <header class="form-head">
+        <h2>Registro de Aprendiz</h2>
+        <p>
+          Completa tus datos para ingresar al sistema. Esta información se guarda localmente en este
+          prototipo.
+        </p>
+      </header>
+
+      <div class="grid-2">
+        <label class="field">
+          <span>Nombre completo *</span>
+          <input
+            type="text"
+            name="nombre"
+            [(ngModel)]="nombreCompleto"
+            placeholder="Ej: Juan Pérez"
+          />
+        </label>
+
+        <label class="field">
+          <span>Tipo de documento *</span>
+          <select name="tipoDoc" [(ngModel)]="tipoDocumento">
+            @for (t of tiposDocumento; track t) {
+              <option [value]="t">{{ t }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Número de documento *</span>
+          <input
+            type="text"
+            name="numDoc"
+            [(ngModel)]="numeroDocumento"
+            placeholder="Ej: 1020304050"
+          />
+        </label>
+
+        <label class="field">
+          <span>Correo personal *</span>
+          <input type="email" name="correo" [(ngModel)]="correo" placeholder="ejemplo@gmail.com" />
+        </label>
+
+        <label class="field">
+          <span>Programa / Tecnólogo</span>
+          <select name="tecnologo" [(ngModel)]="nombreTecnologo">
+            @for (tg of tecnologos; track tg) {
+              <option [value]="tg">{{ tg }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Ficha *</span>
+          <input type="number" name="ficha" [(ngModel)]="ficha" placeholder="Ej: 2758901" />
+        </label>
+
+        <label class="field">
+          <span>Trimestre actual</span>
+          <select name="trimestre" [(ngModel)]="trimestre">
+            @for (tr of trimestres; track tr) {
+              <option [value]="tr">{{ tr }}</option>
+            }
+          </select>
+        </label>
+
+        <label class="field field-check">
+          <input type="checkbox" name="acepta" [(ngModel)]="aceptaDatos" />
+          <span> Autorizo el tratamiento de mis datos personales con fines académicos. </span>
+        </label>
+      </div>
+
+      @if (error(); as e) {
+        <p class="error">{{ e }}</p>
+      }
+
+      <button type="submit" class="btn-primary">Ingresar al sistema</button>
+
+      <p class="help">¿No puedes ingresar? <a href="#">Contacta a tu instructor</a></p>
+    </form>
+  </section>
+</div>

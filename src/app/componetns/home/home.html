@@ -1,0 +1,62 @@
+@if (aprendiz(); as a) {
+  <section class="home">
+    <!-- ===== Encabezado ===== -->
+    <header class="greet">
+      <h1>Hola, {{ a.nombreCompleto.split(' ')[0] }} 👋</h1>
+      <p>Ficha {{ a.ficha }} · {{ a.nombreTecnologo }} · {{ a.trimestre }}</p>
+    </header>
+
+    <!-- ===== Tarjetas principales ===== -->
+    <div class="cards">
+      <!-- Simulacro de Salida -->
+      <article class="card card-simulacro">
+        <div class="card-icon">📝</div>
+        <div class="card-head">
+          <h2>Simulacro de Salida</h2>
+          <span
+            class="badge"
+            [class.badge-pending]="simulacroPendiente()"
+            [class.badge-done]="!simulacroPendiente()"
+          >
+            {{ simulacroPendiente() ? 'Pendiente' : 'Completado' }}
+          </span>
+        </div>
+        <p class="card-sub">Activada por Coordinación T&amp;T</p>
+        <p class="card-desc">
+          Debes presentar las 5 competencias antes de tu Saber T&amp;T oficial. Vas
+          {{ presentadas() }} de {{ total }} completadas.
+        </p>
+
+        <div class="progress">
+          <div class="progress-bar" [style.width.%]="(presentadas() / total) * 100"></div>
+        </div>
+
+        <a routerLink="/evaluacion" class="btn-primary">Iniciar Evaluación</a>
+      </article>
+
+      <!-- Resultados -->
+      <article class="card card-resultados">
+        <div class="card-icon">📊</div>
+        <div class="card-head">
+          <h2>Resultados</h2>
+          <span class="badge badge-done">Disponibles</span>
+        </div>
+        <p class="card-sub">Histórico de pruebas presentadas</p>
+        <p class="card-desc">
+          Consulta el histórico de tus pruebas presentadas y tu evolución comparando entrada vs.
+          salida.
+        </p>
+        <a routerLink="/resultados" class="btn-outline">Ver Resultados</a>
+      </article>
+    </div>
+
+    <!-- ===== Banner de recordatorio ===== -->
+    <div class="banner">
+      <span class="bulb">💡</span>
+      <p>
+        <strong>Recuerda:</strong> en el simulacro de salida debes responder las 5 competencias para
+        obtener tu promedio de ficha.
+      </p>
+    </div>
+  </section>
+}

@@ -1,0 +1,153 @@
+<section class="resultados">
+  <header class="page-head">
+    <h1>Mis Resultados</h1>
+    @if (aprendizService.aprendiz(); as a) {
+      <p>Ficha {{ a.ficha }} · Simulacro de Salida más reciente</p>
+    }
+  </header>
+
+  <!-- ===== Cards de resumen ===== -->
+  <div class="summary">
+    <div class="sum-card green">
+      <span class="sum-label">Prueba de Entrada</span>
+      <span class="sum-value">{{ entradaGlobal() }}<small>%</small></span>
+      <span class="sum-foot">15 preguntas · ya presentada</span>
+    </div>
+
+    <div class="sum-card blue">
+      <span class="sum-label">Promedio Simulacro</span>
+      <span class="sum-value"
+        >{{ promedioSalida() }}<small>/{{ PUNTAJE_MAX }}</small></span
+      >
+      <span class="sum-foot">Sobre competencias presentadas</span>
+    </div>
+
+    <div class="sum-card amber">
+      <span class="sum-label">Competencias presentadas</span>
+      <span class="sum-value"
+        >{{ presentadas() }}<small>/{{ totalCompetencias }}</small></span
+      >
+      <span class="sum-foot">Avance del simulacro de salida</span>
+    </div>
+  </div>
+
+  <!-- ===== Gráficos ===== -->
+  <div class="charts">
+    <!-- Gráfico 1: Puntaje de salida por competencia -->
+    <article class="chart-card">
+      <h2>Puntaje por competencia presentada (sobre {{ PUNTAJE_MAX }})</h2>
+      @if (graficoSalida().length > 0) {
+        <div class="bar-chart">
+          @for (g of graficoSalida(); track g.nombre) {
+            <div class="bar-row">
+              <span class="bar-label">{{ g.nombre }}</span>
+              <div class="bar-track">
+                <div
+                  class="bar-fill salida"
+                  [style.width.%]="g.pct"
+                  [style.background]="colorBarra(g.pct)"
+                >
+                  <span class="bar-val">{{ g.puntaje }}</span>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty">
+          <p>📊</p>
+          <p>Aún no has presentado competencias de salida.</p>
+          <a routerLink="/evaluacion" class="btn-link">Ir a evaluación</a>
+        </div>
+      }
+    </article>
+
+    <!-- Gráfico 2: Comparación Entrada vs Salida -->
+    <article class="chart-card">
+      <h2>Entrada vs Salida</h2>
+      <p class="chart-note">Comparación normalizada a % (entrada vs salida / {{ PUNTAJE_MAX }}).</p>
+
+      <div class="legend">
+        <span><i class="dot entrada"></i> Entrada (%)</span>
+        <span><i class="dot salida"></i> Salida (%)</span>
+      </div>
+
+      <div class="grouped-chart">
+        @for (g of graficoComparacion(); track g.nombre) {
+          <div class="group">
+            <div class="bars">
+              <div
+                class="bar-v entrada"
+                [style.height.%]="g.entradaPct"
+                [title]="'Entrada: ' + g.entradaPct + '%'"
+              ></div>
+              @if (g.salidaPct !== null) {
+                <div
+                  class="bar-v salida"
+                  [style.height.%]="g.salidaPct"
+                  [title]="'Salida: ' + g.salidaPct + '%'"
+                ></div>
+              } @else {
+                <div class="bar-v pending" title="Sin presentar"></div>
+              }
+            </div>
+            <span class="group-label">{{ g.nombre }}</span>
+          </div>
+        }
+      </div>
+    </article>
+  </div>
+
+  <!-- ===== Tabla detallada ===== -->
+  <article class="chart-card">
+    <h2>Detalle por competencia</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Competencia</th>
+            <th>Entrada</th>
+            <th>Salida</th>
+            <th>Diferencia</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (g of graficoComparacion(); track g.nombre) {
+            <tr>
+              <td>{{ g.nombre }}</td>
+              <td>{{ g.entradaPct }}%</td>
+              <td>
+                @if (g.salidaPct !== null) {
+                  {{ g.salidaPct }}%
+                } @else {
+                  —
+                }
+              </td>
+              <td>
+                @if (g.salidaPct !== null) {
+                  <span
+                    [class.positive]="g.salidaPct - g.entradaPct >= 0"
+                    [class.negative]="g.salidaPct - g.entradaPct < 0"
+                  >
+                    {{ g.salidaPct - g.entradaPct >= 0 ? '+' : ''
+                    }}{{ g.salidaPct - g.entradaPct }} pts
+                  </span>
+                } @else {
+                  —
+                }
+              </td>
+              <td>
+                @if (g.completada) {
+                  <span class="badge-done">Completada</span>
+                } @else {
+                  <span class="badge-pending">Pendiente</span>
+                }
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>

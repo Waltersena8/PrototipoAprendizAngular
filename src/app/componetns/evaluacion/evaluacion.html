@@ -1,0 +1,87 @@
+<section class="eval">
+  <header class="page-head">
+    <h1>Evaluación</h1>
+    <p>Presenta tu prueba de entrada (ya aplicada) y el simulacro de salida.</p>
+  </header>
+
+  <!-- ===== Prueba de Entrada (ya presentada, datos por defecto) ===== -->
+  <article class="card entrada">
+    <div class="card-top">
+      <div>
+        <h2>Prueba de Entrada</h2>
+        <p class="card-sub">
+          Se aplica una única vez, al ingresar al programa (trimestre I–II). Conformada por 15
+          preguntas distribuidas en 5 secciones (una por competencia de salida).
+        </p>
+      </div>
+      <div class="estado done">
+        <span class="dot"></span>
+        <span>Presentada</span>
+      </div>
+    </div>
+
+    <div class="entrada-resumen">
+      <div class="score">
+        <span class="score-num">{{ entradaGlobal() }}<small>%</small></span>
+        <span class="score-label">Resultado global</span>
+      </div>
+
+      <div class="detalle">
+        <h3>Desglose por competencia (15 preguntas · 3 c/u)</h3>
+        <ul>
+          @for (c of entradaPorCompetencia(); track c.competenciaId) {
+            <li>
+              <span class="comp-name">{{ c.nombreCompetencia }}</span>
+              <div class="mini-bar">
+                <div class="mini-fill" [style.width.%]="c.entradaPorcentaje"></div>
+              </div>
+              <span class="comp-pct">{{ c.entradaPorcentaje }}%</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </div>
+  </article>
+
+  <!-- ===== Simulacro de Salida ===== -->
+  <article class="card salida">
+    <div class="card-top">
+      <div>
+        <h2>Simulacro de Salida</h2>
+        <p class="card-sub">
+          Selecciona la competencia que vas a presentar (trimestre VI–VII). Puntaje máximo por
+          competencia: {{ tyt.PUNTAJE_MAX }} pts.
+        </p>
+      </div>
+      <div class="counter">
+        <strong>{{ presentadas() }}/{{ competencias.length }}</strong>
+        <span>presentadas</span>
+      </div>
+    </div>
+
+    <ul class="comp-list">
+      @for (c of competencias; track c.id) {
+        @if (estadoCompetencia(c.id); as est) {
+          <li class="comp-item">
+            <div class="comp-icon">{{ c.icono }}</div>
+            <div class="comp-info">
+              <strong>{{ c.nombre }}</strong>
+              <span class="comp-meta">⏱ {{ c.duracionMin }} min · {{ c.descripcion }}</span>
+            </div>
+            <div class="comp-status">
+              @if (est.completada) {
+                <span class="badge-done"
+                  >Completada · {{ est.salidaPuntaje }}/{{ tyt.PUNTAJE_MAX }}</span
+                >
+                <a [routerLink]="['/prueba', c.id]" class="btn-ver">Ver</a>
+              } @else {
+                <span class="badge-pending">Pendiente</span>
+                <a [routerLink]="['/prueba', c.id]" class="btn-iniciar">Iniciar</a>
+              }
+            </div>
+          </li>
+        }
+      }
+    </ul>
+  </article>
+</section>
